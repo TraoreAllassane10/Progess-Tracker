@@ -21,6 +21,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('habitudes', function () {
         return Inertia::render('habitude/Index');
     })->name('habitudes');
+    Route::get('habitudes/1', function () {
+        return Inertia::render('habitude/Show');
+    })->name('habitudes.show');
 
     // Actions (Provisoire)
     Route::get("actions", function() {

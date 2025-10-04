@@ -67,7 +67,7 @@ const Index = () => {
                 </div>
 
                 {/* Liste des Objectifs */}
-                <div className="z-0">
+                <div>
                     <h2 className="mb-3">Liste des objectifs</h2>
                     <div className="grid grid-cols-4 gap-4">
                         {/* Card 1 */}
