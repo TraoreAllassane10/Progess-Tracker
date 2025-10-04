@@ -16,6 +16,10 @@ const breadcrumbs: BreadcrumbItem[] = [
         title: 'Habitudes',
         href: '/habitudes',
     },
+    {
+        title: 'Lecture',
+        href: '/habitudes/1',
+    },
 ];
 
 const chartData = [
