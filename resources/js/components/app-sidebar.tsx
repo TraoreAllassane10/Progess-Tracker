@@ -24,17 +24,17 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: "Habitudes",
-        href: "#",
+        href: "/habitudes",
         icon: BicepsFlexed
     },
      {
         title: "Objectifs",
-        href: "#",
+        href: "/objectifs",
         icon: Goal
     },
      {
         title: "Actions",
-        href: "#",
+        href: "/actions",
         icon: Pickaxe
     },
 
