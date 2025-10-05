@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ObjectifController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -13,9 +14,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 
     // Objectifs (Provisoire)
-    Route::get('objectifs', function () {
-        return Inertia::render('objectif/Index');
-    })->name('objectifs');
+    Route::resource("objectifs", ObjectifController::class);
+
+    // Route::get('objectifs', function () {
+    //     return Inertia::render('objectif/Index');
+    // })->name('objectifs');
 
     // Habitats (Provisoire)
     Route::get('habitudes', function () {

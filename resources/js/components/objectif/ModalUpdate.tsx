@@ -1,19 +1,36 @@
 import { router } from '@inertiajs/react';
 import { X } from 'lucide-react';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 interface ModalProps {
-    setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
+    id: number;
+    setOpenModalUpdate: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Modal = ({ setOpenModal }: ModalProps) => {
+const ModalUpdate = ({ setOpenModalUpdate, id }: ModalProps) => {
 
-    const [titre, setTitre] = useState('');
+    const [titre, setTitre] = useState("");
     const [dateCommencement, setDateCommencement] = useState('');
     const [dateEcheance, setDateEcheance] = useState('');
 
-    //Enregistrement d'un objectif
+    //Récupération des données de l'objectif au render du composant
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    //Fonction pour récupérer les données de l'objectif
+    async function fetchData() {
+        await fetch(`/objectifs/${id}`, { method: 'GET' })
+            .then((response) => response.json())
+            .then((data) => {
+                setTitre(data.titre);
+                setDateCommencement(data.date_commencement);
+                setDateEcheance(data.date_echeance);
+            });
+    }
+
+    //Modification d'un objectif
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
 
@@ -27,14 +44,14 @@ const Modal = ({ setOpenModal }: ModalProps) => {
             return;
         }
 
-        router.post(
-            '/objectifs',
+        router.put(
+            `objectifs/${id}`,
             { titre, dateCommencement, dateEcheance },
             {
                 onSuccess: () => {
-                    setOpenModal((v) => !v);
+                    setOpenModalUpdate((v) => !v);
 
-                    toast.success('Objectif créé avec succès !', {
+                    toast.success('Objectif modifié avec succès !', {
                         duration: 4000,
                         richColors: true,
                         position: 'top-center',
@@ -42,7 +59,7 @@ const Modal = ({ setOpenModal }: ModalProps) => {
                 },
                 onError: () => {
                     toast.error(
-                        "Une erreur s'est produite lors de la création de l'objectif.",
+                        "Une erreur s'est produite lors de la modification de l'objectif.",
                         {
                             duration: 3000,
                             richColors: true,
@@ -50,7 +67,7 @@ const Modal = ({ setOpenModal }: ModalProps) => {
                         },
                     );
 
-                    setOpenModal((v) => !v);
+                    setOpenModalUpdate((v) => !v);
                 },
             },
         );
@@ -60,11 +77,11 @@ const Modal = ({ setOpenModal }: ModalProps) => {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 transition">
             <div className="w-[800px] rounded-xl border bg-card p-4 text-card-foreground shadow">
                 <div className="flex justify-between">
-                    <div className="font-bold mb-4 text-lg tracking-tight">
-                        Nouvel Objectif
+                    <div className="mb-4 text-lg font-bold tracking-tight">
+                        Modification d'objectif
                     </div>
                     <button
-                        onClick={() => setOpenModal((v) => !v)}
+                        onClick={() => setOpenModalUpdate((v) => !v)}
                         className="cursor-pointer text-red-500"
                     >
                         <X />
@@ -125,7 +142,7 @@ const Modal = ({ setOpenModal }: ModalProps) => {
 
                     <div className="flex items-center justify-between pt-0">
                         <button
-                            onClick={() => setOpenModal((v) => !v)}
+                            onClick={() => setOpenModalUpdate((v) => !v)}
                             className="inline-flex h-8 items-center justify-center gap-2 rounded-md border border-input bg-background px-3 text-xs font-medium whitespace-nowrap shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0"
                         >
                             Annuler
@@ -135,7 +152,7 @@ const Modal = ({ setOpenModal }: ModalProps) => {
                             onClick={handleSubmit}
                             className="inline-flex h-8 items-center justify-center gap-2 rounded-md bg-primary px-3 text-xs font-medium whitespace-nowrap text-primary-foreground shadow transition-colors hover:bg-primary/90 focus:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0"
                         >
-                            Enregistrer
+                            Modifier
                         </button>
                     </div>
                 </div>
@@ -144,4 +161,4 @@ const Modal = ({ setOpenModal }: ModalProps) => {
     );
 };
 
-export default Modal;
+export default ModalUpdate;

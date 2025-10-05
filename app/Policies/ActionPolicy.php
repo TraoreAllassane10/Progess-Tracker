@@ -21,7 +21,7 @@ class ActionPolicy
      */
     public function view(User $user, Action $action): bool
     {
-        return false;
+        return $user->id === $action->id;
     }
 
     /**
@@ -37,7 +37,7 @@ class ActionPolicy
      */
     public function update(User $user, Action $action): bool
     {
-        return false;
+        return $user->id === $action->id;
     }
 
     /**
@@ -45,7 +45,7 @@ class ActionPolicy
      */
     public function delete(User $user, Action $action): bool
     {
-        return false;
+        return $user->id === $action->id;
     }
 
     /**
@@ -53,7 +53,7 @@ class ActionPolicy
      */
     public function restore(User $user, Action $action): bool
     {
-        return false;
+        return $user->id === $action->id;
     }
 
     /**
@@ -61,6 +61,6 @@ class ActionPolicy
      */
     public function forceDelete(User $user, Action $action): bool
     {
-        return false;
+        return $user->id === $action->id;
     }
 }

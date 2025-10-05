@@ -1,9 +1,10 @@
 import Card from '@/components/objectif/Card';
 import Modal from '@/components/objectif/Modal';
+import ModalUpdate from '@/components/objectif/ModalUpdate';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/react';
-import { Plus, X } from 'lucide-react';
+import { Head, usePage } from '@inertiajs/react';
+import { Plus } from 'lucide-react';
 import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -13,8 +14,32 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
+interface objectif {
+    id: number;
+    titre: string;
+    date_commencement: string;
+    date_echeance: string;
+    statut: string;
+    user_id: number;
+}
+
+interface data {
+    data: objectif[];
+}
+
+interface objectifsProps {
+    objectifs: data;
+    key: unknown;
+}
+
 const Index = () => {
+    const { objectifs } = usePage<objectifsProps>().props;
+
     const [openModal, setOpenModal] = useState(false);
+    const [openModalUpdate, setOpenModalUpdate] = useState(false);
+
+    const [id, setId] = useState(0);
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Objectifs" />
@@ -69,51 +94,30 @@ const Index = () => {
                 {/* Liste des Objectifs */}
                 <div>
                     <h2 className="mb-3">Liste des objectifs</h2>
-                    <div className="grid grid-cols-4 gap-4">
-                        {/* Card 1 */}
-                        <Card
-                            titre="Lire 10 livres d'ici la fin de l'année"
-                            echeance="31/12/25"
-                            statut="en cours"
-                        />
-
-                        {/* Card 2 */}
-                        <Card
-                            titre="Perdre 10kg d'ici le mois de novembre"
-                            echeance="01/11/2025"
-                            statut="en cours"
-                        />
-
-                        {/* Card 3 */}
-                        <Card
-                            titre="Apprendre le langage JAVA en 2 mois"
-                            echeance="04/12/2025"
-                            statut="en cours"
-                        />
-
-                        {/* Card 4 */}
-                         <Card
-                            titre="Apprendre la base de marketing en 2 semaine"
-                            echeance="04/10/2025"
-                            statut="terminé"
-                        />
-                      
-
-                        {/* Card 5 */}
-                        <Card
-                            titre=" Apprendre la base de Storytelling en une
-                                    semaine"
-                            echeance="10/10/2025"
-                            statut=" Abandonné"
-                        />
-                      
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
+                        {objectifs.data.map((item) => (
+                            <Card
+                                key={item.id}
+                                id={item.id}
+                                titre={item.titre}
+                                echeance={item.date_echeance}
+                                statut={item.statut}
+                                openModalUpdate={openModalUpdate}
+                                setOpenModalUpdate={setOpenModalUpdate}
+                                setId={setId}
+                            />
+                        ))}
                     </div>
                 </div>
 
                 {/* Modal d'enregistrement */}
-                {openModal && (
-                    <Modal setOpenModal={setOpenModal} />
+                {openModal && <Modal setOpenModal={setOpenModal} />}
+
+                {/* Modal de modification */}
+                {openModalUpdate && (
+                    <ModalUpdate setOpenModalUpdate={setOpenModalUpdate} id={id} />
                 )}
+ 
             </div>
         </AppLayout>
     );

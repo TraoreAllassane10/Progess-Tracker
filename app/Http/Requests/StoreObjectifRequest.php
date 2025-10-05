@@ -11,7 +11,7 @@ class StoreObjectifRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,19 @@ class StoreObjectifRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "titre" => ["required", "string"],
+            "dateCommencement" => ["required"],
+            "dateEcheance" => ["required"],
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            "titre.required" => "Veuillez entrer le titre",
+            "titre.string" => "LE titre doit être une chaine de caractère",
+            "dateCommencement.required" => "Veuillez entrer la date de commencement",
+            "dateEcheance.required" => "Veuillez entrer la date d'echeance",
         ];
     }
 }

@@ -21,7 +21,7 @@ class ObjectifPolicy
      */
     public function view(User $user, Objectif $objectif): bool
     {
-        return false;
+        return $user->id === $objectif->id;
     }
 
     /**
@@ -37,7 +37,7 @@ class ObjectifPolicy
      */
     public function update(User $user, Objectif $objectif): bool
     {
-        return false;
+        return $user->id === $objectif->id;
     }
 
     /**
@@ -45,7 +45,7 @@ class ObjectifPolicy
      */
     public function delete(User $user, Objectif $objectif): bool
     {
-        return false;
+        return $user->id === $objectif->id;
     }
 
     /**
@@ -53,7 +53,7 @@ class ObjectifPolicy
      */
     public function restore(User $user, Objectif $objectif): bool
     {
-        return false;
+        return $user->id === $objectif->id;
     }
 
     /**
@@ -61,6 +61,6 @@ class ObjectifPolicy
      */
     public function forceDelete(User $user, Objectif $objectif): bool
     {
-        return false;
+        return $user->id === $objectif->id;
     }
 }

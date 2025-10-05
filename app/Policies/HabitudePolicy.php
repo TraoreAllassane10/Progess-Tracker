@@ -21,7 +21,7 @@ class HabitudePolicy
      */
     public function view(User $user, Habitude $habitude): bool
     {
-        return false;
+        return $user->id === $habitude->id;
     }
 
     /**
@@ -37,7 +37,7 @@ class HabitudePolicy
      */
     public function update(User $user, Habitude $habitude): bool
     {
-        return false;
+        return $user->id === $habitude->id;
     }
 
     /**
@@ -45,7 +45,7 @@ class HabitudePolicy
      */
     public function delete(User $user, Habitude $habitude): bool
     {
-        return false;
+        return $user->id === $habitude->id;
     }
 
     /**
@@ -53,7 +53,7 @@ class HabitudePolicy
      */
     public function restore(User $user, Habitude $habitude): bool
     {
-        return false;
+        return $user->id === $habitude->id;
     }
 
     /**
@@ -61,6 +61,6 @@ class HabitudePolicy
      */
     public function forceDelete(User $user, Habitude $habitude): bool
     {
-        return false;
+        return $user->id === $habitude->id;
     }
 }

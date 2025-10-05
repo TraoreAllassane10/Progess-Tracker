@@ -13,4 +13,12 @@ class Objectif extends Model
     public const EN_COURS = "en cours";
     public const TERMINE = "terminé";
     public const ABANDONNE = "abandonné";
+
+    protected $fillable = [
+        "titre",
+        "date_commencement",
+        "date_echeance",
+        "user_id"
+    ];
+
 }

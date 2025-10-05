@@ -15,9 +15,9 @@ const ModalDetail = () => {
                     >
                         <X />
                     </button>
-                </div>
+                </div> */}
 
-                <div className="flex flex-col gap-6">
+                {/* <div className="flex flex-col gap-6">
                     <div className="3xl:flex-row flex flex-col gap-3">
                         <div className="flex flex-1 flex-col gap-2">
                             <label
