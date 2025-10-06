@@ -6,8 +6,15 @@ interface ModalDetailProps {
     setOpenModalDetail: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+interface data {
+    titre: string;
+    date_commencement: string;
+    date_echeance: string;
+}
+
+
 const ModalDetail = ({ setOpenModalDetail, id }: ModalDetailProps) => {
-    const [data, setData] = useState([]);
+    const [data, setData] = useState<data>();
 
     //Récupération des données de l'objectif au render du composant
     useEffect(() => {
@@ -37,10 +44,10 @@ const ModalDetail = ({ setOpenModalDetail, id }: ModalDetailProps) => {
 
                 <div className="flex flex-col gap-4">
                     <h1 className="text-lg font-bold text-card-foreground">
-                        {data.titre}
+                        {data?.titre}
                     </h1>
                     <span>
-                        Du {data.date_commencement} au {data.date_echeance}
+                        Du {data?.date_commencement} au {data?.date_echeance}
                     </span>
 
                     <hr className="w-full border" />

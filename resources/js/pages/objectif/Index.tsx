@@ -29,8 +29,11 @@ interface data {
 }
 
 interface objectifsProps {
+    total: number;
+    termine: number;
+    tauxObjectifTermine: number;
     objectifs: data;
-    key: unknown;
+    [key: string]: unknown;
 }
 
 const Index = () => {
