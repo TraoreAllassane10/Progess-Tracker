@@ -1,6 +1,5 @@
 import { router } from "@inertiajs/react";
-import ModalUpdate from "./ModalUpdate";
-import { FormEvent } from "react";
+import { FormEvent, use, useState } from "react";
 import { toast } from "sonner";
 
 interface CardProps {
@@ -18,13 +17,12 @@ const Card = ({
     titre,
     echeance,
     statut,
-    openModalUpdate,
     setOpenModalUpdate,
     setOpenModalDetail,
     setId,
 }: CardProps) => {
 
-
+    const [loading, setLoading] = useState(false);
 
     // Cette fonction met à jour l'id de l'objectif à modifié(il se trouve dans index) ainsi que le state de controller du modal
     const update = (id: number) => {
@@ -42,6 +40,7 @@ const Card = ({
     const handleDelete = (e: FormEvent) => {
         e.preventDefault();
 
+        setLoading(true);
 
         router.delete(
             `objectifs/${id}`,
@@ -52,6 +51,8 @@ const Card = ({
                         richColors: true,
                         position: 'top-center',
                     });
+
+                    setLoading(false);
                 },
                 onError: () => {
                     toast.error(
@@ -62,6 +63,8 @@ const Card = ({
                             position: 'top-center',
                         },
                     );
+
+                    setLoading(false);
                 },
             },
         );
@@ -89,8 +92,9 @@ const Card = ({
                 >
                     Modifier
                 </button>
-                <button onClick={handleDelete} className="rounded bg-red-500 hover:bg-red-500/80 px-1 text-white">
-                    Supprimer
+                <button onClick={handleDelete} className="rounded bg-red-500 hover:bg-red-500/80 px-1 text-white" disabled={loading}>
+                    {loading ? 'Suppression...' : "Supprimer"}
+                    
                 </button>
             </div>
 
