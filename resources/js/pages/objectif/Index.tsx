@@ -1,5 +1,6 @@
 import Card from '@/components/objectif/Card';
 import Modal from '@/components/objectif/Modal';
+import ModalDetail from '@/components/objectif/ModalDetail';
 import ModalUpdate from '@/components/objectif/ModalUpdate';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
@@ -9,7 +10,7 @@ import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Objectis',
+        title: 'Objectifs',
         href: '/objectifs',
     },
 ];
@@ -37,6 +38,7 @@ const Index = () => {
 
     const [openModal, setOpenModal] = useState(false);
     const [openModalUpdate, setOpenModalUpdate] = useState(false);
+    const [openModalDetail, setOpenModalDetail] = useState(false);
 
     const [id, setId] = useState(0);
 
@@ -104,6 +106,7 @@ const Index = () => {
                                 statut={item.statut}
                                 openModalUpdate={openModalUpdate}
                                 setOpenModalUpdate={setOpenModalUpdate}
+                                setOpenModalDetail={setOpenModalDetail}
                                 setId={setId}
                             />
                         ))}
@@ -117,6 +120,13 @@ const Index = () => {
                 {openModalUpdate && (
                     <ModalUpdate setOpenModalUpdate={setOpenModalUpdate} id={id} />
                 )}
+
+                {/* Modal de detail */}
+                {
+                    openModalDetail && (
+                        <ModalDetail setOpenModalDetail={setOpenModalDetail} id={id} />
+                    )
+                }
  
             </div>
         </AppLayout>

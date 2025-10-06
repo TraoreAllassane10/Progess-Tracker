@@ -10,6 +10,7 @@ interface CardProps {
     statut: string;
     openModalUpdate: boolean;
     setOpenModalUpdate: React.Dispatch<React.SetStateAction<boolean>>;
+    setOpenModalDetail: React.Dispatch<React.SetStateAction<boolean>>;
     setId: React.Dispatch<React.SetStateAction<number>>;
 }
 const Card = ({
@@ -19,13 +20,22 @@ const Card = ({
     statut,
     openModalUpdate,
     setOpenModalUpdate,
+    setOpenModalDetail,
     setId,
 }: CardProps) => {
+
+
 
     // Cette fonction met à jour l'id de l'objectif à modifié(il se trouve dans index) ainsi que le state de controller du modal
     const update = (id: number) => {
         setId(id);
         setOpenModalUpdate((v) => !v);
+    }
+
+     // Cette fonction met à jour l'id de l'objectif à afficher(il se trouve dans index) ainsi que le state de controller du modal Detail
+      const detail = (id: number) => {
+        setId(id);
+        setOpenModalDetail((v) => !v);
     }
 
     //Modification d'un objectif
@@ -70,9 +80,9 @@ const Card = ({
             <hr className="w-full border" />
 
             <div className="flex justify-end gap-3 p-4">
-                <a href="" className="rounded bg-primary px-1 text-white">
+                <button onClick={() => detail(id)} className="rounded bg-primary px-1 text-white">
                     Détail
-                </a>
+                </button>
                 <button
                     onClick={() => update(id)}
                     className="rounded bg-blue-500 px-1 text-white"

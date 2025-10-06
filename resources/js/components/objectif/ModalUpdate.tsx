@@ -76,13 +76,13 @@ const ModalUpdate = ({ setOpenModalUpdate, id }: ModalProps) => {
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 transition">
             <div className="w-[800px] rounded-xl border bg-card p-4 text-card-foreground shadow">
-                <div className="flex justify-between">
+                <div className="flex justify-between place-items-center">
                     <div className="mb-4 text-lg font-bold tracking-tight">
                         Modification d'objectif
                     </div>
                     <button
                         onClick={() => setOpenModalUpdate((v) => !v)}
-                        className="cursor-pointer text-red-500"
+                        className="cursor-pointer bg-slate-100 p-1 rounded-xl text-red-500"
                     >
                         <X />
                     </button>

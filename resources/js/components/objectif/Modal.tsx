@@ -59,13 +59,13 @@ const Modal = ({ setOpenModal }: ModalProps) => {
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 transition">
             <div className="w-[800px] rounded-xl border bg-card p-4 text-card-foreground shadow">
-                <div className="flex justify-between">
+                <div className="flex justify-between place-items-center">
                     <div className="font-bold mb-4 text-lg tracking-tight">
                         Nouvel Objectif
                     </div>
                     <button
                         onClick={() => setOpenModal((v) => !v)}
-                        className="cursor-pointer text-red-500"
+                        className="cursor-pointer bg-slate-100 p-1 rounded-xl text-red-500"
                     >
                         <X />
                     </button>

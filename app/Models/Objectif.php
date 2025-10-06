@@ -21,4 +21,5 @@ class Objectif extends Model
         "user_id"
     ];
 
+
 }
