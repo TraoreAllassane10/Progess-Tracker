@@ -76,7 +76,9 @@ const Card = ({
                 <h3 className="font-semibold text-card-foreground">{titre}</h3>
                 <span>Echéance : {echeance}</span>
                 <span>
-                    Statut : <span className="text-yellow-500">{statut}</span>
+                    Statut : {statut === 'en cours'&& (<span className="text-yellow-500">{statut}</span>)}
+                    {statut === 'terminé'&& (<span className="text-green-500">{statut}</span>)}
+                    {statut === 'abandonné'&& (<span className="text-red-500">{statut}</span>)}
                 </span>
             </div>
 
@@ -92,7 +94,7 @@ const Card = ({
                 >
                     Modifier
                 </button>
-                <button onClick={handleDelete} className="rounded bg-red-500 hover:bg-red-500/80 px-1 text-white" disabled={loading}>
+                <button onClick={handleDelete} className="rounded bg-red-500 hover:bg-red-500/80 px-1 text-white" disabled>
                     {loading ? 'Suppression...' : "Supprimer"}
                     
                 </button>
