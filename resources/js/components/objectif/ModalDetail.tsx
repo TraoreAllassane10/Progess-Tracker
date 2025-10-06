@@ -1,5 +1,7 @@
+import { router } from '@inertiajs/react';
 import { X } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
 interface ModalDetailProps {
     id: number;
@@ -10,8 +12,8 @@ interface data {
     titre: string;
     date_commencement: string;
     date_echeance: string;
+    statut: string;
 }
-
 
 const ModalDetail = ({ setOpenModalDetail, id }: ModalDetailProps) => {
     const [data, setData] = useState<data>();
@@ -29,6 +31,31 @@ const ModalDetail = ({ setOpenModalDetail, id }: ModalDetailProps) => {
                 setData(data);
             });
     }
+
+    // Function de mise à jour de statut
+    const changeStatut = (statut: string) => {
+       
+            router.post(`objectifs/${id}/toggle-statut`, {statut}, {
+                onSuccess(){
+                    toast.success("Mise à jour du statut d'un objectif !", {
+                         duration: 4000,
+                        richColors: true,
+                        position: 'top-center',
+                    });
+
+                    router.visit("/objectifs");
+                },
+                onError() {
+                    toast.error("Une erreur est survenue lors de la mise à jour du statut !", {
+                         duration: 3000,
+                        richColors: true,
+                        position: 'top-center',
+                    });
+                }
+            })
+
+    }   
+
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 transition">
             <div className="w-[800px] rounded-xl border bg-card p-4 text-card-foreground shadow">
@@ -52,14 +79,25 @@ const ModalDetail = ({ setOpenModalDetail, id }: ModalDetailProps) => {
 
                     <hr className="w-full border" />
 
+                    {/* Affichage des habitudes lié a cet objectif */}
                     <div>
                         <h2>Historique des habitudes</h2>
                         <p>(plus tard)</p>
                     </div>
 
+                    {/* Affichage des actions lié a cet objectif */}
                     <div>
                         <h2>Historiques des actions</h2>
                         <p>(plus tard)</p>
+                    </div>
+
+                    <hr className="w-full border" />
+
+                    {/*Les boutons de modification de statut*/}
+                    <div className='flex items-center justify-center gap-4'>
+                        <button onClick={() => changeStatut("en cours")} className='bg-yellow-500 hover:bg-yellow-500/80 text-white rounded p-1 transition'>Lancé</button>
+                        <button onClick={() => changeStatut("abandonné")} className='bg-red-500 hover:bg-red-500/80 text-white rounded p-1 transition'>Abandonner</button>
+                        <button onClick={() => changeStatut("terminé")} className='bg-green-500 hover:bg-green-500/80 text-white rounded p-1 transition'>Terminer</button>
                     </div>
                 </div>
             </div>

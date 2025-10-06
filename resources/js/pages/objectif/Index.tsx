@@ -56,7 +56,7 @@ const Index = () => {
                     <div>
                         <button
                             onClick={() => setOpenModal((v) => !v)}
-                            className="flex cursor-pointer gap-1 rounded-md bg-primary px-3 py-1 text-white transition hover:bg-primary/90"
+                            className="flex cursor-pointer gap-1 rounded-md bg-primary px-3 py-1 text-white transition hover:bg-primary/80"
                         >
                             <Plus />
                             Nouvel Objectif

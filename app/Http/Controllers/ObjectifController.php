@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\ObjectifResource;
+use Inertia\Inertia;
 use App\Models\Objectif;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\ObjectifResource;
 use App\Http\Requests\StoreObjectifRequest;
 use App\Http\Requests\UpdateObjectifRequest;
-use Illuminate\Support\Facades\Auth;
-use Inertia\Inertia;
 
 class ObjectifController extends Controller
 {
@@ -89,5 +90,28 @@ class ObjectifController extends Controller
     public function destroy(Objectif $objectif)
     {
         $objectif->delete();
+    }
+
+    public function toggleStatut(Request $request, Objectif $objectif)
+    {
+        $request->validate([
+            "statut" => ["required"]
+        ]);
+
+        if($request->statut == Objectif::TERMINE){
+           $objectif->statut = Objectif::TERMINE; 
+           $objectif->save();
+        }
+        elseif ($request->statut == Objectif::ABANDONNE)
+        {
+            $objectif->statut = Objectif::ABANDONNE;
+            $objectif->save();
+        }
+        else
+        {
+            $objectif->statut = Objectif::EN_COURS;
+            $objectif->save();
+        }
+        
     }
 }

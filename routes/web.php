@@ -13,12 +13,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
 
-    // Objectifs (Provisoire)
+    // Les routes de l'objectif
     Route::resource("objectifs", ObjectifController::class);
-
-    // Route::get('objectifs', function () {
-    //     return Inertia::render('objectif/Index');
-    // })->name('objectifs');
+    Route::post("objectifs/{objectif}/toggle-statut", [ObjectifController::class, "toggleStatut"])->name("objectifs.toogle-statut");
 
     // Habitats (Provisoire)
     Route::get('habitudes', function () {
@@ -29,7 +26,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('habitudes.show');
 
     // Actions (Provisoire)
-    Route::get("actions", function() {
+    Route::get("actions", function () {
         return Inertia::render("action/Index");
     })->name("actions");
 });

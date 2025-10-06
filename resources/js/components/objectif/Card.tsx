@@ -80,16 +80,16 @@ const Card = ({
             <hr className="w-full border" />
 
             <div className="flex justify-end gap-3 p-4">
-                <button onClick={() => detail(id)} className="rounded bg-primary px-1 text-white">
+                <button onClick={() => detail(id)} className="rounded bg-primary hover:bg-primary/80 px-1 text-white">
                     Détail
                 </button>
                 <button
                     onClick={() => update(id)}
-                    className="rounded bg-blue-500 px-1 text-white"
+                    className="rounded bg-blue-500 hover:bg-blue-500/80 px-1 text-white"
                 >
                     Modifier
                 </button>
-                <button onClick={handleDelete} className="rounded bg-red-500 px-1 text-white">
+                <button onClick={handleDelete} className="rounded bg-red-500 hover:bg-red-500/80 px-1 text-white">
                     Supprimer
                 </button>
             </div>
