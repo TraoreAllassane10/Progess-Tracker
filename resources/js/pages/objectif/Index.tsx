@@ -34,7 +34,7 @@ interface objectifsProps {
 }
 
 const Index = () => {
-    const { objectifs } = usePage<objectifsProps>().props;
+    const { objectifs, total, termine, tauxObjectifTermine } = usePage<objectifsProps>().props;
 
     const [openModal, setOpenModal] = useState(false);
     const [openModalUpdate, setOpenModalUpdate] = useState(false);
@@ -68,28 +68,26 @@ const Index = () => {
                             Nombre total
                         </h3>
                         <span className="text-3xl font-semibold tracking-tight">
-                            8
+                            {total}
                         </span>
                     </div>
 
                     <div className="flex flex-col items-center justify-center gap-2 rounded-xl border bg-card p-4 text-card-foreground shadow">
                         <h3 className="text-sm text-muted-foreground">
-                            Objectif atteint
+                             Nombre d'objectif atteint
                         </h3>
                         <span className="text-3xl font-semibold tracking-tight">
-                            25 %
+                            {termine}
                         </span>
                     </div>
 
                     <div className="flex flex-col items-center justify-center gap-2 rounded-xl border bg-card p-4 text-card-foreground shadow">
                         <h3 className="text-sm text-muted-foreground">
-                            Statistique
+                           Taux de succès
                         </h3>
-                        <div className="flex items-center justify-center gap-2 font-semibold tracking-tight">
-                            <span className="text-md">5 en cours</span>
-                            <span className="text-md">2 atteints</span>
-                            <span className="text-md">1 abandonné</span>
-                        </div>
+                        <span className="text-3xl font-semibold tracking-tight">
+                            {tauxObjectifTermine} %
+                        </span>
                     </div>
                 </div>
 

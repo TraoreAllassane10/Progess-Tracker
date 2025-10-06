@@ -16,7 +16,14 @@ class ObjectifController extends Controller
      */
     public function index()
     {
-        return Inertia::render("objectif/Index", ["objectifs" => ObjectifResource::collection(Objectif::all())]);
+        $objectif = new Objectif();
+
+        return Inertia::render("objectif/Index", [
+            "total" => $objectif->totalObjectif(),
+            "termine" => $objectif->nombreObjectifAtteint(),
+            "tauxObjectifTermine" => $objectif->tauxObjectifTermine(),
+            "objectifs" => ObjectifResource::collection(Objectif::where("user_id", Auth::user()->id)->get())
+        ]);
     }
 
     /**
