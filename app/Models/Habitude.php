@@ -10,4 +10,10 @@ class Habitude extends Model
     /** @use HasFactory<\Database\Factories\HabitudeFactory> */
     use HasFactory;
 
+    protected $fillable = [
+        "titre",
+        "frequence",
+        "user_id"
+    ];
+
 }

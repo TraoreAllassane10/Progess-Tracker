@@ -11,7 +11,7 @@ class StoreHabitudeRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,16 @@ class StoreHabitudeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "titre" => ["required", "string"],
+            "frequence" => ["required", "string"]
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            "titre.required" => "Veillez entrer le titre",
+            "frequence" => "Veillez entrer la frequence"
         ];
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HabitudeController;
 use App\Http\Controllers\ObjectifController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -18,12 +19,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post("objectifs/{objectif}/toggle-statut", [ObjectifController::class, "toggleStatut"])->name("objectifs.toogle-statut");
 
     // Habitats (Provisoire)
-    Route::get('habitudes', function () {
-        return Inertia::render('habitude/Index');
-    })->name('habitudes');
-    Route::get('habitudes/1', function () {
-        return Inertia::render('habitude/Show');
-    })->name('habitudes.show');
+    Route::resource("habitudes", HabitudeController::class);
+    // Route::get('habitudes/1', function () {
+    //     return Inertia::render('habitude/Show');
+    // })->name('habitudes.show');
 
     // Actions (Provisoire)
     Route::get("actions", function () {

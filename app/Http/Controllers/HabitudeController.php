@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
+use Inertia\Inertia;
 use App\Models\Habitude;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreHabitudeRequest;
 use App\Http\Requests\UpdateHabitudeRequest;
 
@@ -13,23 +16,27 @@ class HabitudeController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render("habitude/Index", ["habitudes" => Habitude::where("user_id", Auth::user()->id)->get()]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        //
-    }
+    public function create() {}
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(StoreHabitudeRequest $request)
     {
-        //
+        try {
+            $data = $request->validated();
+            $data["user_id"] = Auth::user()->id;
+
+            Habitude::create($data);
+        } catch (Exception $e) {
+            return response()->json($e->getMessage());
+        }
     }
 
     /**
@@ -37,7 +44,7 @@ class HabitudeController extends Controller
      */
     public function show(Habitude $habitude)
     {
-        //
+        return Inertia::render("habitude/Show", ["habitude" => $habitude]);
     }
 
     /**
