@@ -1,9 +1,10 @@
 import ModalAddHabitude from '@/components/habitude/ModalAddHabitude';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
-import { Head, usePage } from '@inertiajs/react';
+import { Head, router, usePage } from '@inertiajs/react';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
+import { toast } from 'sonner';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -24,9 +25,40 @@ interface HabitudeProps {
 }
 
 const Index = () => {
-    const { habitudes } = usePage<HabitudeProps>().props;
+    const { habitudes, dates } = usePage<HabitudeProps>().props;
 
     const [openModalAdd, setOpenModalAdd] = useState(false);
+
+    // Fonction pour gérer le changement de statut d'une habitude
+    const handleCheck = (habitudeId: number, date: string) => {
+
+        console.log(`Habitude ID: ${habitudeId}, Date: ${date}`);
+        
+        router.post(`habitudes/${habitudeId}/checkin`, {date}, {
+            onSuccess() {
+                toast.success("Statut mis à jour !");
+            },
+            onError() {
+                toast.error("Une erreur est survenue. Veuillez réessayer.");
+            }
+        })
+    };
+
+    const DateTransformer = (date: string) => {
+        if (!date) return "";
+        const [annee, jour, mois] = date.split('-');
+        
+        return `${jour}/${mois}/${annee}`;
+    }
+
+    const checked = (checkins, date) => {
+
+        const check = checkins?.map((checkin) => {
+           return DateTransformer(checkin.pivot.date) === date ? true : false
+        }) 
+
+        return check.includes(true) ? true : false;
+    }
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -55,114 +87,43 @@ const Index = () => {
                                 <th className="w-[120px] border border-gray-300 p-2">
                                     Habitude
                                 </th>
-                                <th className="border border-gray-300 p-2">
-                                    04/10
-                                </th>
-                                <th className="border border-gray-300 p-2">
-                                    03/10
-                                </th>
-                                <th className="border border-gray-300 p-2">
-                                    02/10
-                                </th>
-                                <th className="border border-gray-300 p-2">
-                                    01/10
-                                </th>
-                                <th className="border border-gray-300 p-2">
-                                    30/09
-                                </th>
-                                <th className="border border-gray-300 p-2">
-                                    29/09
-                                </th>
-                                <th className="border border-gray-300 p-2">
-                                    28/09
-                                </th>
-                                <th className="border border-gray-300 p-2">
-                                    27/09
-                                </th>
-                                <th className="border border-gray-300 p-2">
-                                    26/09
-                                </th>
-                                <th className="border border-gray-300 p-2">
-                                    25/09
-                                </th>
+
+                                {dates.map((date, index) => (
+                                    <th
+                                        key={index}
+                                        className="border border-gray-300 p-2"
+                                    >
+                                        {date}
+                                    </th>
+                                ))}
                             </tr>
                         </thead>
                         <tbody>
                             {habitudes.map((item) => (
                                 <tr key={item.id}>
                                     <td className="border border-gray-300 p-2 text-left">
-                                        <a href={`/habitudes/${item.id}`}>{item.titre}</a>
+                                        <a href={`/habitudes/${item.id}`}>
+                                            {item.titre}
+                                        </a>
                                     </td>
-                                    {Array(10)
-                                        .fill(0)
-                                        .map((_, i) => (
-                                            <td
-                                                key={i}
-                                                className="border border-gray-300 p-2"
-                                            >
-                                                <input
-                                                    type="checkbox"
-                                                    className="h-5 w-5"
-                                                />
-                                            </td>
-                                        ))}
+                                    {dates.map((date, index) => (
+                                        <td
+                                            key={index}
+                                            className="border border-gray-300 p-2"
+                                        >
+                                            <input
+                                                type="checkbox"
+                                                // checked={DateTransformer(item.checkins[0]?.pivot.date) === date && true}
+                                                checked={checked(item.checkins, date)} 
+                                                className="h-5 w-5"
+                                                 onChange={() =>
+                                                    handleCheck(item.id, date)
+                                                }
+                                            />
+                                        </td>
+                                    ))}
                                 </tr>
                             ))}
-
-                            {/* <tr>
-                                <td className="border border-gray-300 p-2 text-left">
-                                    <a href="/habitudes/1">Codage</a>
-                                </td>
-                                {Array(10)
-                                    .fill(0)
-                                    .map((_, i) => (
-                                        <td
-                                            key={i}
-                                            className="border border-gray-300 p-2"
-                                        >
-                                            <input
-                                                type="checkbox"
-                                                className="h-5 w-5"
-                                            />
-                                        </td>
-                                    ))}
-                            </tr>
-                            <tr>
-                                <td className="border border-gray-300 p-2 text-left">
-                                    <a href="/habitudes/1">Sport</a>
-                                </td>
-                                {Array(10)
-                                    .fill(0)
-                                    .map((_, i) => (
-                                        <td
-                                            key={i}
-                                            className="border border-gray-300 p-2"
-                                        >
-                                            <input
-                                                type="checkbox"
-                                                className="h-5 w-5"
-                                            />
-                                        </td>
-                                    ))}
-                            </tr>
-                            <tr>
-                                <td className="border border-gray-300 p-2 text-left">
-                                    <a href="/habitudes/1">Ecriture</a>
-                                </td>
-                                {Array(10)
-                                    .fill(0)
-                                    .map((_, i) => (
-                                        <td
-                                            key={i}
-                                            className="border border-gray-300 p-2"
-                                        >
-                                            <input
-                                                type="checkbox"
-                                                className="h-5 w-5"
-                                            />
-                                        </td>
-                                    ))}
-                            </tr> */}
                         </tbody>
                     </table>
                 </div>

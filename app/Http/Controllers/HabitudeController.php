@@ -8,6 +8,8 @@ use App\Models\Habitude;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreHabitudeRequest;
 use App\Http\Requests\UpdateHabitudeRequest;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class HabitudeController extends Controller
 {
@@ -16,7 +18,18 @@ class HabitudeController extends Controller
      */
     public function index()
     {
-        return Inertia::render("habitude/Index", ["habitudes" => Habitude::where("user_id", Auth::user()->id)->get()]);
+        //La date du jour
+        $aujourdhui = Carbon::today();
+
+        // Recuperer les 14 derniers jours
+        $dates = collect(range(0, 13))
+            ->map(fn($i) => $aujourdhui->copy()->subDays($i)->format("d/m/Y"))
+            ->values();
+
+        return Inertia::render("habitude/Index", [
+            "habitudes" => Habitude::where("user_id", Auth::user()->id)->get(),
+            "dates" => $dates,
+        ]);
     }
 
     /**
@@ -69,5 +82,30 @@ class HabitudeController extends Controller
     public function destroy(Habitude $habitude)
     {
         //
+    }
+
+    public function checkin(Habitude $habitude, Request $request)
+    {
+        // Verifier si l'utilisateur n'a jamais fait un checkin pour cette habitude à la date donnée
+        if (! $habitude->checkins()->where("user_id", Auth::user()->id)->wherePivot("date", Carbon::parse($request->date))->exists())
+        {
+            // Enregistrer le checkin
+            $habitude->checkins()->attach(Auth::user()->id, ["date" => Carbon::parse($request->date), "estAccompli" => true]);
+        }
+        else
+        {
+            // Mettre à jour le checkin existant (toggle)
+            if($habitude->checkins()->where("user_id", Auth::user()->id)->wherePivot("date", Carbon::parse($request->date))->first()->pivot->estAccompli)
+            {
+                $habitude->checkins()->where("user_id", Auth::user()->id)->wherePivot("date", Carbon::parse($request->date))->updateExistingPivot(AUth::user()->id, ["estAccompli" => false]);
+            }
+            else
+            {
+                $habitude->checkins()->where("user_id", Auth::user()->id)->wherePivot("date", Carbon::parse($request->date))->updateExistingPivot(AUth::user()->id, ["estAccompli" => true]);
+            }
+        }
+
+        return redirect()->route("habitudes.index");
+            
     }
 }

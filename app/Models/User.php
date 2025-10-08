@@ -46,4 +46,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function habitudes()
+    {
+        return $this->hasMany(Habitude::class);
+    }
+
+    public function chechins()
+    {
+        return $this->belongsToMany(Habitude::class, "habitude_user")->withPivot("date", "estAccompli")->withTimestamps();
+    }
 }

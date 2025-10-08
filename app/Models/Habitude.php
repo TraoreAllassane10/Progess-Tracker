@@ -16,4 +16,18 @@ class Habitude extends Model
         "user_id"
     ];
 
+   
+
+    protected $with = ["checkins"];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function checkins()
+    {
+        return $this->belongsToMany(User::class, "habitude_user")->withPivot("date", "estAccompli")->withTimestamps();
+    }
+
 }

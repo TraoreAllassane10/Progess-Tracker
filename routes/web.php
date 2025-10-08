@@ -20,9 +20,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Habitats (Provisoire)
     Route::resource("habitudes", HabitudeController::class);
-    // Route::get('habitudes/1', function () {
-    //     return Inertia::render('habitude/Show');
-    // })->name('habitudes.show');
+    Route::post("habitudes/{habitude}/checkin", [HabitudeController::class, "checkin"])->name("habitudes.checkin");
 
     // Actions (Provisoire)
     Route::get("actions", function () {
